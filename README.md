@@ -18,7 +18,7 @@ Examples:
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/yourusername/py-github-svg-profile.git`
+1. Clone the repository: `git clone https://github.com/Seb-RS/py-github-svg-profile.git`
 2. Install dependencies: `pip install -r requirements.txt`
 
 ## Execution
