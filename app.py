@@ -32,9 +32,8 @@ def generate_svg(username):
         total_commits = 0
 
         num_weeks = len(contributions_data["contributions"])
-        num_days = len(contributions_data["contributions"][0]["days"])
         svg_width = num_weeks * 12 + 27 + 20
-        svg_height = num_days * 12 + 50 + 20
+        svg_height = 7 * 12 + 50 + 20
 
         svg = f"""
             <svg width="{svg_width}" height="{svg_height}" xmlns="http://www.w3.org/2000/svg">
