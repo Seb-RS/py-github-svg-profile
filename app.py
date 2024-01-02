@@ -52,7 +52,7 @@ def generate_svg(username):
                         color = "#fff"
 
                     svg += f"""
-                        <rect x="{x}" y="{y}" width="10" height="10" fill="{color}"/>
+                        <rect x="{x}" y="{y}" width="10" height="10" fill="{color}" rx="2" ry="2"/>
                     """
 
                     total_commits += day_commits["count"]
