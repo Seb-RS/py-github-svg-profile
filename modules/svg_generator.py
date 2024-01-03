@@ -72,22 +72,24 @@ class SVGGenerator:
 
             text_y = svg_height - 15
             svg += f"""
-                    <g>
-                        <foreignObject x="{27}" y="{text_y - 15}" width="20" height="20">
+                   <g>
+                        <foreignObject id="github-icon" class="commit-text" x="{27}" y="{text_y - 15}" width="20" height="20">
                             {github_icon_svg}
                         </foreignObject>
-                        <text class="commit-text" x="{27+20+5}" y="{text_y}" font-family="Arial" font-size="14" fill="black" font-weight="bold">
+                        <text id="username-text" class="commit-text" x="{27+20+5}" y="{text_y}" font-family="Arial" font-size="14" fill="black" font-weight="bold">
                             {username}
                         </text>
-                        <text x="{svg_width-25}" y="{text_y}" font-family="Arial" font-size="14" text-anchor="end" fill="black">
+                        <text id="contributions-text" class="commit-text" x="{svg_width-25}" y="{text_y}" font-family="Arial" font-size="14" text-anchor="end" fill="black">
                             {total_commits} contributions in {year}
                         </text>
                     </g>
                     <script>
                         setTimeout(() => {{
                             const commitRects = document.querySelectorAll('.commit-rect');
-                            const textElement = document.querySelector('.commit-text');
-                            
+                            const githubIconElement = document.getElementById('github-icon');
+                            const usernameTextElement = document.getElementById('username-text');
+                            const contributionsTextElement = document.getElementById('contributions-text');
+
                             commitRects.forEach((rect, index) => {{
                                 setTimeout(() => {{
                                     rect.style.opacity = '1';
@@ -95,7 +97,9 @@ class SVGGenerator:
                             }});
                             
                             setTimeout(() => {{
-                                textElement.style.opacity = '1';
+                                githubIconElement.style.opacity = '1';
+                                usernameTextElement.style.opacity = '1';
+                                contributionsTextElement.style.opacity = '1';
                             }}, {duration});
                         }}, 100);
                     </script>
