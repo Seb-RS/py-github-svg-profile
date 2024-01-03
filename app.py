@@ -12,11 +12,23 @@ def svg_chart(username):
         api = GitHubAPI(username)
         current_year = datetime.now().year
         year = request.args.get("year") or current_year
+        container_color = request.args.get("container_color") or "f7f7f7"
+        factor_color = request.args.get("factor_color") or 0.9
         primary_color = request.args.get("primary_color") or "39d353"
+        primary_text_color = request.args.get("primary_text_color") or "000000"
+        secondary_text_color = request.args.get("secondary_text_color") or "262626"
         duration = request.args.get("duration") or 1000
         contributions_data = api.get_contributions(year)
         svg = SVGGenerator.generate_svg(
-            username, year, contributions_data, primary_color, int(duration)
+            username,
+            year,
+            contributions_data,
+            container_color,
+            float(factor_color),
+            primary_color,
+            primary_text_color,
+            secondary_text_color,
+            int(duration),
         )
 
         response = make_response(svg)
