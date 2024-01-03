@@ -3,9 +3,7 @@ from modules.color import Color
 
 class SVGGenerator:
     @staticmethod
-    def generate_svg(
-        username, year, contributions_data, global_color, duration
-    ):
+    def generate_svg(username, year, contributions_data, global_color, duration):
         try:
             total_commits = 0
 
@@ -22,6 +20,11 @@ class SVGGenerator:
                     <rect width="{svg_width}" height="{svg_height}" fill="#f7f7f7"/>
                     <style>
                         .commit-rect {{
+                            transition: opacity 0.5s ease-in-out;
+                            opacity: 0;
+                        }}
+                        
+                        .commit-text {{
                             transition: opacity 0.5s ease-in-out;
                             opacity: 0;
                         }}
@@ -63,17 +66,23 @@ class SVGGenerator:
 
             text_y = svg_height - 15
             svg += f"""
-                    <text x="{svg_width / 2}" y="{text_y}" font-family="Arial" font-size="14" fill="black" text-anchor="middle">
+                    <text class="commit-text" x="{svg_width / 2}" y="{text_y}" font-family="Arial" font-size="14" fill="black" text-anchor="middle" opacity="0">
                         {username} has {total_commits} commits in {year}
                     </text>
                     <script>
                         setTimeout(() => {{
                             const commitRects = document.querySelectorAll('.commit-rect');
+                            const textElement = document.querySelector('.commit-text');
+                            
                             commitRects.forEach((rect, index) => {{
                                 setTimeout(() => {{
                                     rect.style.opacity = '1';
                                 }}, index * {peer_index_duration});
                             }});
+                            
+                            setTimeout(() => {{
+                                textElement.style.opacity = '1';
+                            }}, {duration});
                         }}, 100);
                     </script>
                 </svg>
