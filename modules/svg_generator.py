@@ -1,5 +1,6 @@
 from modules.color import Color
 
+
 class SVGGenerator:
     @staticmethod
     def generate_svg(username, year, contributions_data, global_color):
@@ -23,9 +24,13 @@ class SVGGenerator:
             for week_index, week in enumerate(
                 contributions_data.get("contributions", [])
             ):
+                is_first_week = week_index == 0
+
                 for day_index, day_commits in enumerate(week.get("days", [])):
                     x = (week_index * 12) + 27
-                    y = (day_index * 12) + 20
+
+                    y_adjustment = (7 - len(week["days"])) * 12 if is_first_week else 0
+                    y = (day_index * 12) + 20 + y_adjustment
 
                     if "count" in day_commits:
                         if day_commits["count"] > 0:
