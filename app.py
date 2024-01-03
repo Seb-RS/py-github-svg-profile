@@ -10,8 +10,11 @@ def svg_chart(username):
     try:
         api = GitHubAPI(username)
         year = request.args.get("year")
+        primary_color = request.args.get("primary_color") or "39d353"
         contributions_data = api.get_contributions(year)
-        svg = SVGGenerator.generate_svg(username, year, contributions_data)
+        svg = SVGGenerator.generate_svg(
+            username, year, contributions_data, primary_color
+        )
 
         response = make_response(svg)
         response.headers["Content-Type"] = "image/svg+xml"
