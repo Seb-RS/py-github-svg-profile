@@ -1,4 +1,5 @@
 from flask import Flask, make_response, request
+from datetime import datetime
 from modules.github_api import GitHubAPI
 from modules.svg_generator import SVGGenerator
 
@@ -9,7 +10,8 @@ app = Flask(__name__)
 def svg_chart(username):
     try:
         api = GitHubAPI(username)
-        year = request.args.get("year")
+        current_year = datetime.now().year
+        year = request.args.get("year") or current_year
         primary_color = request.args.get("primary_color") or "39d353"
         contributions_data = api.get_contributions(year)
         svg = SVGGenerator.generate_svg(
