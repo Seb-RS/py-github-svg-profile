@@ -3,7 +3,9 @@ from modules.color import Color
 
 class SVGGenerator:
     @staticmethod
-    def generate_svg(username, year, contributions_data, global_color):
+    def generate_svg(
+        username, year, contributions_data, global_color, duration = 1000
+    ):
         try:
             total_commits = 0
 
@@ -18,6 +20,12 @@ class SVGGenerator:
             svg = f"""
                 <svg width="{svg_width}" height="{svg_height}" xmlns="http://www.w3.org/2000/svg">
                     <rect width="{svg_width}" height="{svg_height}" fill="#f7f7f7"/>
+                    <style>
+                        .commit-rect {{
+                            transition: opacity 0.5s ease-in-out;
+                            opacity: 0;
+                        }}
+                    </style>
             """
 
             for week_index, week in enumerate(
@@ -46,16 +54,28 @@ class SVGGenerator:
                             color = "#eeeeee"
 
                         svg += f"""
-                            <rect x="{x}" y="{y}" width="10" height="10" fill="{color}" rx="2" ry="2"/>
+                            <rect class="commit-rect" x="{x}" y="{y}" width="10" height="10" fill="{color}" rx="2" ry="2"/>
                         """
 
                         total_commits += day_commits["count"]
+
+            peer_index_duration = duration / 365
 
             text_y = svg_height - 15
             svg += f"""
                     <text x="{svg_width / 2}" y="{text_y}" font-family="Arial" font-size="14" fill="black" text-anchor="middle">
                         {username} has {total_commits} commits in {year}
                     </text>
+                    <script>
+                        setTimeout(() => {{
+                            const commitRects = document.querySelectorAll('.commit-rect');
+                            commitRects.forEach((rect, index) => {{
+                                setTimeout(() => {{
+                                    rect.style.opacity = '1';
+                                }}, index * {peer_index_duration});
+                            }});
+                        }}, 100);
+                    </script>
                 </svg>
             """
 
