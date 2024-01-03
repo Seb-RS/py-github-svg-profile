@@ -11,7 +11,6 @@ class SVGGenerator:
             svg_width = num_weeks * 12 + 27 + 20
             svg_height = 7 * 12 + 50 + 20
 
-            max_commits = contributions_data["max"]
             p80_commits = contributions_data["p80"]
             p90_commits = contributions_data["p90"]
             p99_commits = contributions_data["p99"]
@@ -34,15 +33,11 @@ class SVGGenerator:
 
                     if "count" in day_commits:
                         if day_commits["count"] > 0:
-                            commit_percentage = (
-                                day_commits["count"] / max_commits
-                            ) * 100
-
-                            if commit_percentage >= p99_commits:
+                            if day_commits["count"] >= p99_commits:
                                 color = f"""#{global_color}"""
-                            elif commit_percentage >= p90_commits:
+                            elif day_commits["count"] >= p90_commits:
                                 color = Color.darken(global_color, 0.8)
-                            elif commit_percentage >= p80_commits:
+                            elif day_commits["count"] >= p80_commits:
                                 color = Color.darken(global_color, 0.6)
                             else:
                                 color = Color.darken(global_color, 0.4)
