@@ -13,9 +13,10 @@ def svg_chart(username):
         current_year = datetime.now().year
         year = request.args.get("year") or current_year
         primary_color = request.args.get("primary_color") or "39d353"
+        duration = request.args.get("duration") or 1000
         contributions_data = api.get_contributions(year)
         svg = SVGGenerator.generate_svg(
-            username, year, contributions_data, primary_color
+            username, year, contributions_data, primary_color, int(duration)
         )
 
         response = make_response(svg)

@@ -4,7 +4,7 @@ from modules.color import Color
 class SVGGenerator:
     @staticmethod
     def generate_svg(
-        username, year, contributions_data, global_color, duration = 1000
+        username, year, contributions_data, global_color, duration
     ):
         try:
             total_commits = 0
