@@ -1,6 +1,8 @@
+from modules.color import Color
+
 class SVGGenerator:
     @staticmethod
-    def generate_svg(username, year, contributions_data):
+    def generate_svg(username, year, contributions_data, global_color="#39d353"):
         try:
             total_commits = 0
 
@@ -32,13 +34,14 @@ class SVGGenerator:
                             ) * 100
 
                             if commit_percentage >= p99_commits:
-                                color = "#39d353"
+                                color = global_color
                             elif commit_percentage >= p90_commits:
-                                color = "#26a641"
+                                color = Color.darken(global_color, 0.8)
                             elif commit_percentage >= p80_commits:
-                                color = "#006d32"
+                                color = Color.darken(global_color, 0.6)
                             else:
-                                color = "#0e4429"
+                                color = Color.darken(global_color, 0.4)
+
                         else:
                             color = "#eeeeee"
 
