@@ -8,9 +8,14 @@ class SVGGenerator:
             svg_width = num_weeks * 12 + 27 + 20
             svg_height = 7 * 12 + 50 + 20
 
+            max_commits = contributions_data["max"]
+            p80_commits = contributions_data["p80"]
+            p90_commits = contributions_data["p90"]
+            p99_commits = contributions_data["p99"]
+
             svg = f"""
                 <svg width="{svg_width}" height="{svg_height}" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="{svg_width}" height="{svg_height}" fill="#f0f0f0"/>
+                    <rect width="{svg_width}" height="{svg_height}" fill="#f7f7f7"/>
             """
 
             for week_index, week in enumerate(
@@ -22,9 +27,20 @@ class SVGGenerator:
 
                     if "count" in day_commits:
                         if day_commits["count"] > 0:
-                            color = f"rgb(0, {day_commits['count'] * 10}, 0)"
+                            commit_percentage = (
+                                day_commits["count"] / max_commits
+                            ) * 100
+
+                            if commit_percentage >= p99_commits:
+                                color = "#39d353"
+                            elif commit_percentage >= p90_commits:
+                                color = "#26a641"
+                            elif commit_percentage >= p80_commits:
+                                color = "#006d32"
+                            else:
+                                color = "#0e4429"
                         else:
-                            color = "#fff"
+                            color = "#eeeeee"
 
                         svg += f"""
                             <rect x="{x}" y="{y}" width="10" height="10" fill="{color}" rx="2" ry="2"/>
